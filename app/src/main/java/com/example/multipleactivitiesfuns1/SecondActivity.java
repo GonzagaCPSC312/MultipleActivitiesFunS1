@@ -2,6 +2,7 @@ package com.example.multipleactivitiesfuns1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -29,6 +30,10 @@ public class SecondActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // 3. send a result back to MainActivity
+                Intent intent = new Intent();
+                intent.putExtra("result", "successful");
+                setResult(Activity.RESULT_OK, intent);
                 SecondActivity.this.finish();
             }
         });
