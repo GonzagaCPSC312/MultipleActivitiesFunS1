@@ -6,11 +6,14 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     static final String TAG = "MainActivityTag";
@@ -30,6 +33,12 @@ public class MainActivity extends AppCompatActivity {
                         // starting an activity (e.g. SecondActivity) that was
                         // started for a result
                         // BRB
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            Intent data = result.getData();
+                            String resultStr = data.getStringExtra("result");
+                            TextView tv = findViewById(R.id.textView);
+                            tv.setText(resultStr);
+                        }
                     }
                 });
 
@@ -76,7 +85,14 @@ public class MainActivity extends AppCompatActivity {
         viewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                // implicit intent example #1
+                // start an activity that can handle and intent
+                // for viewing a webpage
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                // URI: uniform resource identifier
+                Uri guUri = Uri.parse("https://www.gonzaga.edu");
+                intent.setData(guUri);
+                startActivity(intent);
             }
         });
         
@@ -84,7 +100,13 @@ public class MainActivity extends AppCompatActivity {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                // implicit intent example #2
+                // start an activity to send a simple string message
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain"); // mime type (media)
+                String message = "My message to send :) :) :)";
+                intent.putExtra(Intent.EXTRA_TEXT, message);
+                startActivity(intent);
             }
         });
     }
